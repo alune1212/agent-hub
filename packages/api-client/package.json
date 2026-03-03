@@ -1,0 +1,23 @@
+{
+  "name": "@internal/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "gen:api-client": "openapi-typescript ../../apps/api/openapi.json --output ./src/generated/schema.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "echo 'no tests for @internal/api-client'",
+    "build": "tsc --emitDeclarationOnly --declaration --declarationMap --outDir dist"
+  },
+  "devDependencies": {
+    "@internal/config-eslint": "workspace:*",
+    "@internal/config-ts": "workspace:*",
+    "@types/node": "^24.3.0",
+    "eslint": "^9.35.0",
+    "openapi-typescript": "^7.10.1",
+    "typescript": "^5.9.2"
+  }
+}

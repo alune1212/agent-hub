@@ -1,0 +1,22 @@
+{
+  "name": "agent-hub-monorepo",
+  "private": true,
+  "packageManager": "bun@1.3.10",
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "lint": "turbo lint && uv run ruff check .",
+    "typecheck": "turbo typecheck && uv run ty check",
+    "test": "turbo test && uv run pytest",
+    "build": "turbo build",
+    "export:openapi": "./scripts/export_openapi.sh",
+    "gen:api-client": "bun run export:openapi && turbo gen:api-client --filter=@internal/api-client"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.6",
+    "typescript": "^5.9.2"
+  }
+}

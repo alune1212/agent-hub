@@ -1,0 +1,4 @@
+[install]
+exact = true
+peer = true
+registry = "https://registry.npmjs.org"

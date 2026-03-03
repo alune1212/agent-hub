@@ -1,0 +1,39 @@
+[project]
+name = "agent-hub-monorepo"
+version = "0.1.0"
+description = "Monorepo for internal platform: FastAPI + React + shadcn"
+requires-python = ">=3.14,<3.15"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28.1",
+  "pytest>=8.4.2",
+  "pytest-asyncio>=1.2.0",
+  "ruff>=0.13.0",
+  "ty>=0.0.1a18"
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = [
+  "apps/api",
+  "apps/worker",
+  "libs/py-common",
+  "libs/py-domain"
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-q"
+testpaths = [
+  "apps/api/tests",
+  "apps/worker/tests"
+]
+
+[tool.ty]
+python-version = "3.14"
+strict = true
+include = ["apps", "libs"]

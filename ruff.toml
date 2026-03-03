@@ -1,0 +1,11 @@
+target-version = "py314"
+line-length = 100
+src = ["apps", "libs"]
+
+[lint]
+select = ["E", "F", "I", "B", "UP", "N", "ASYNC", "RUF"]
+ignore = ["E501"]
+
+[format]
+quote-style = "double"
+indent-style = "space"

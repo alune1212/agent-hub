@@ -1,0 +1,7 @@
+{
+  "extends": "@internal/config-ts/node",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": ["src"]
+}

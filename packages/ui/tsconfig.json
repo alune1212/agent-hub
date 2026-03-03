@@ -1,0 +1,7 @@
+{
+  "extends": "@internal/config-ts/react",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": ["src"]
+}
