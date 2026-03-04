@@ -8,7 +8,7 @@ const weeklySeries = [
   { day: "Fri", value: 149 }
 ];
 
-export function ReportsPage(): JSX.Element {
+export function ReportsPage() {
   const maxValue = Math.max(...weeklySeries.map((item) => item.value));
 
   return (

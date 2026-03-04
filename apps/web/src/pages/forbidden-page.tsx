@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@internal/ui";
 
-export function ForbiddenPage(): JSX.Element {
+export function ForbiddenPage() {
   return (
     <Card>
       <CardHeader>

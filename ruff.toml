@@ -4,7 +4,7 @@ src = ["apps", "libs"]
 
 [lint]
 select = ["E", "F", "I", "B", "UP", "N", "ASYNC", "RUF"]
-ignore = ["E501"]
+ignore = ["B008", "E501", "RUF012"]
 
 [format]
 quote-style = "double"

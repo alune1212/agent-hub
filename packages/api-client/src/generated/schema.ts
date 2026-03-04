@@ -380,7 +380,9 @@ export interface operations {
     };
     login_api_v1_auth_login_get: {
         parameters: {
-            query?: never;
+            query?: {
+                redirect_uri?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -398,12 +400,22 @@ export interface operations {
                     };
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     callback_api_v1_auth_callback_get: {
         parameters: {
-            query?: {
-                code?: string | null;
+            query: {
+                code: string;
+                state: string;
             };
             header?: never;
             path?: never;
@@ -417,9 +429,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: string | null;
-                    };
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -459,12 +469,15 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -494,12 +507,15 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -529,6 +545,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
@@ -536,7 +553,9 @@ export interface operations {
             path: {
                 user_id: string;
             };
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody: {
             content: {
@@ -570,12 +589,15 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -605,6 +627,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
@@ -612,7 +635,9 @@ export interface operations {
             path: {
                 role_id: string;
             };
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody: {
             content: {
@@ -644,14 +669,25 @@ export interface operations {
     };
     list_events_api_v1_audit_events_get: {
         parameters: {
-            query?: never;
+            query?: {
+                actor_id?: string | null;
+                action?: string | null;
+                resource_type?: string | null;
+                start_at?: string | null;
+                end_at?: string | null;
+                page?: number;
+                page_size?: number;
+            };
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -663,7 +699,7 @@ export interface operations {
                 content: {
                     "application/json": {
                         [key: string]: unknown;
-                    }[];
+                    };
                 };
             };
             /** @description Validation Error */
@@ -681,6 +717,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
@@ -688,7 +725,9 @@ export interface operations {
             path: {
                 event_id: string;
             };
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -718,12 +757,15 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -753,12 +795,15 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -786,8 +831,13 @@ export interface operations {
     };
     get_report_api_v1_reports__report_code__get: {
         parameters: {
-            query?: never;
+            query?: {
+                start_date?: string | null;
+                end_date?: string | null;
+                limit?: number;
+            };
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
@@ -795,7 +845,9 @@ export interface operations {
             path: {
                 report_code: string;
             };
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -823,6 +875,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
@@ -830,7 +883,9 @@ export interface operations {
             path: {
                 report_code: string;
             };
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -860,12 +915,15 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
+                authorization?: string | null;
                 "x-user-id"?: string | null;
                 "x-user-name"?: string | null;
                 "x-user-permissions"?: string | null;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
         };
         requestBody: {
             content: {

@@ -1,20 +1,40 @@
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import { describe, expect, it } from "vitest";
+import { MemoryRouter } from "react-router-dom";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import App from "./App";
 import { AuthProvider } from "./lib/auth";
 
 describe("App", () => {
-  it("should render dashboard title", () => {
+  beforeEach(() => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = typeof input === "string" ? input : input.toString();
+        if (url.includes("/api/v1/auth/me")) {
+          return new Response(JSON.stringify({ detail: "Unauthorized" }), {
+            status: 401,
+            headers: { "Content-Type": "application/json" }
+          });
+        }
+        throw new Error(`Unexpected request in test: ${url}`);
+      })
+    );
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("should render login page by default", async () => {
     render(
       <AuthProvider>
-        <BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
           <App />
-        </BrowserRouter>
+        </MemoryRouter>
       </AuthProvider>
     );
 
-    expect(screen.getByText("管理与审计系统")).toBeInTheDocument();
+    expect(await screen.findByText("企业 SSO 登录")).toBeInTheDocument();
   });
 });

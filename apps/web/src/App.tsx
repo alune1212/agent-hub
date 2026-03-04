@@ -7,12 +7,20 @@ import { AdminPage } from "@/pages/admin-page";
 import { BusinessPage } from "@/pages/business-page";
 import { DashboardPage } from "@/pages/dashboard-page";
 import { ForbiddenPage } from "@/pages/forbidden-page";
+import { LoginPage } from "@/pages/login-page";
 import { ReportsPage } from "@/pages/reports-page";
 
-export default function App(): JSX.Element {
+export default function App() {
   return (
     <Routes>
-      <Route element={<AppLayout />}>
+      <Route path="/login" element={<LoginPage />} />
+      <Route
+        element={
+          <ProtectedRoute permission="core:records:read">
+            <AppLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<DashboardPage />} />
         <Route
           path="/business"

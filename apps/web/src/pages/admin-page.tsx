@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@internal/ui";
 
-export function AdminPage(): JSX.Element {
+export function AdminPage() {
   return (
     <Card>
       <CardHeader>

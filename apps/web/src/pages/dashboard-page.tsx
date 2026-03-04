@@ -6,7 +6,7 @@ const kpiList = [
   { label: "待处理审计告警", value: "7" }
 ];
 
-export function DashboardPage(): JSX.Element {
+export function DashboardPage() {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {kpiList.map((kpi) => (

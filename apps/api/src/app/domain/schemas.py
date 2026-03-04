@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
 
 class HealthResponse(BaseModel):
     status: str = "ok"
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(tz=UTC))
 
 
 class UserProfile(BaseModel):
@@ -36,5 +36,5 @@ class PermissionAssignRequest(BaseModel):
 
 class ReportResult(BaseModel):
     report_code: str
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(tz=UTC))
     rows: list[dict]

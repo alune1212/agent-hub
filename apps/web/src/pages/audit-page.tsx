@@ -15,7 +15,7 @@ const rows = [
   }
 ];
 
-export function AuditPage(): JSX.Element {
+export function AuditPage() {
   return (
     <Card>
       <CardHeader>

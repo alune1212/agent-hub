@@ -2,6 +2,7 @@
   "extends": "@internal/config-ts/react",
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["vite/client", "react", "react-dom"],
     "paths": {
       "@/*": ["src/*"]
     }

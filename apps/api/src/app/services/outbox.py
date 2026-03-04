@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+from py_domain.events import OutboxEventPayload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models import OutboxEvent
-from py_domain.events import OutboxEventPayload
 
 
 async def append_outbox_event(

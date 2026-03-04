@@ -6,11 +6,12 @@ from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from py_common import configure_logging
 
 from app.api.router import api_router
 from app.core.config import get_settings
 from app.domain.schemas import HealthResponse
-from py_common import configure_logging
 
 
 def create_app() -> FastAPI:
@@ -20,6 +21,14 @@ def create_app() -> FastAPI:
         version=settings.app_version,
         docs_url="/docs",
         redoc_url="/redoc",
+    )
+    # Work around a Starlette middleware typing mismatch in ty.
+    app.add_middleware(
+        CORSMiddleware,  # type: ignore[arg-type]
+        allow_origins=settings.cors_allowed_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     @app.get("/healthz", response_model=HealthResponse, tags=["health"])

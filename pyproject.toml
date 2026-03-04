@@ -32,8 +32,3 @@ testpaths = [
   "apps/api/tests",
   "apps/worker/tests"
 ]
-
-[tool.ty]
-python-version = "3.14"
-strict = true
-include = ["apps", "libs"]

@@ -3,7 +3,7 @@ import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } fro
 import { useAuth } from "@/lib/auth";
 import { can } from "@/lib/permissions";
 
-export function BusinessPage(): JSX.Element {
+export function BusinessPage() {
   const { permissions } = useAuth();
   const canCreate = can(permissions, "core:records:create");
 

@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
+from py_common import configure_logging
 from sqlalchemy import create_engine, text
 
-from py_common import configure_logging
 from worker.celery_app import celery_app
 from worker.config import get_settings, to_sync_database_url
 
@@ -92,7 +92,7 @@ def consume_outbox(batch_size: int = 200) -> dict[str, Any]:
             )
             processed += 1
 
-    return {"processed": processed, "checked_at": datetime.now(tz=timezone.utc).isoformat()}
+    return {"processed": processed, "checked_at": datetime.now(tz=UTC).isoformat()}
 
 
 @celery_app.task(name="worker.tasks.daily_reconcile")
@@ -112,5 +112,5 @@ def daily_reconcile() -> dict[str, Any]:
     return {
         "total_events": int(total_events),
         "today_actors": int(daily_users),
-        "checked_at": datetime.now(tz=timezone.utc).isoformat(),
+        "checked_at": datetime.now(tz=UTC).isoformat(),
     }

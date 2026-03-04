@@ -3,11 +3,69 @@ from __future__ import annotations
 from datetime import date, datetime
 from uuid import uuid4
 
-from sqlalchemy import Date, DateTime, Integer, String, Text, func
+from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Integer, String, Text, func
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base
+
+
+class User(Base):
+    __tablename__ = "users"
+    __table_args__ = {"schema": "app"}
+
+    user_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    email: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default="true")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+
+class Role(Base):
+    __tablename__ = "roles"
+    __table_args__ = {"schema": "app"}
+
+    role_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    role_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class PermissionEntity(Base):
+    __tablename__ = "permissions"
+    __table_args__ = {"schema": "app"}
+
+    permission_key: Mapped[str] = mapped_column(String(100), primary_key=True)
+    description: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class UserRole(Base):
+    __tablename__ = "user_roles"
+    __table_args__ = {"schema": "app"}
+
+    user_id: Mapped[str] = mapped_column(
+        String(64), ForeignKey("app.users.user_id", ondelete="CASCADE"), primary_key=True
+    )
+    role_id: Mapped[str] = mapped_column(
+        String(64), ForeignKey("app.roles.role_id", ondelete="CASCADE"), primary_key=True
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class RolePermission(Base):
+    __tablename__ = "role_permissions"
+    __table_args__ = {"schema": "app"}
+
+    role_id: Mapped[str] = mapped_column(
+        String(64), ForeignKey("app.roles.role_id", ondelete="CASCADE"), primary_key=True
+    )
+    permission_key: Mapped[str] = mapped_column(
+        String(100), ForeignKey("app.permissions.permission_key", ondelete="CASCADE"), primary_key=True
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class BusinessRecord(Base):
@@ -61,3 +119,13 @@ class FactUserActivityDaily(Base):
     actor_id: Mapped[str] = mapped_column(String(64), primary_key=True)
     action_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class SSOState(Base):
+    __tablename__ = "sso_states"
+    __table_args__ = {"schema": "app"}
+
+    state: Mapped[str] = mapped_column(String(64), primary_key=True)
+    redirect_uri: Mapped[str] = mapped_column(String(500), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)

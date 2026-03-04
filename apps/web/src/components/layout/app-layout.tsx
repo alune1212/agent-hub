@@ -3,19 +3,17 @@ import { NavLink, Outlet } from "react-router-dom";
 import { Badge, Button } from "@internal/ui";
 
 import { useAuth } from "@/lib/auth";
-import type { AppRole } from "@/lib/permissions";
 
-const roleOptions: AppRole[] = ["employee", "auditor", "admin"];
+const navItems = [
+  { to: "/", label: "工作台", end: true },
+  { to: "/business", label: "业务功能" },
+  { to: "/reports", label: "报表中心" },
+  { to: "/audit", label: "审计中心" },
+  { to: "/admin", label: "系统管理" }
+];
 
-export function AppLayout(): JSX.Element {
-  const { role, switchRole } = useAuth();
-  const navItems = [
-    { to: "/", label: "工作台", end: true },
-    { to: "/business", label: "业务功能" },
-    { to: "/reports", label: "报表中心" },
-    { to: "/audit", label: "审计中心" },
-    { to: "/admin", label: "系统管理" },
-  ];
+export function AppLayout() {
+  const { user, logout } = useAuth();
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -26,17 +24,11 @@ export function AppLayout(): JSX.Element {
             <h1 className="text-xl font-semibold">管理与审计系统</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="secondary">当前角色：{role}</Badge>
-            {roleOptions.map((roleOption) => (
-              <Button
-                key={roleOption}
-                variant={roleOption === role ? "default" : "outline"}
-                size="sm"
-                onClick={() => switchRole(roleOption)}
-              >
-                切换为 {roleOption}
-              </Button>
-            ))}
+            <Badge variant="secondary">用户：{user?.user_name ?? "未登录"}</Badge>
+            <Badge variant="outline">角色：{(user?.roles ?? []).join(", ") || "-"}</Badge>
+            <Button variant="outline" size="sm" onClick={() => void logout()}>
+              退出登录
+            </Button>
           </div>
         </div>
       </header>
