@@ -33,3 +33,6 @@ coverage/
 
 # Logs
 *.log
+
+# Celery beat runtime state
+celerybeat-schedule*

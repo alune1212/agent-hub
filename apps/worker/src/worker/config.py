@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class WorkerSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_prefix="INTERNAL_")
+    model_config = SettingsConfigDict(env_file=".env", env_prefix="INTERNAL_", extra="ignore")
 
     redis_url: str = "redis://localhost:6379/0"
     database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/internal_platform"

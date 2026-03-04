@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from typing import Any
 
@@ -47,7 +48,7 @@ def consume_outbox(batch_size: int = 200) -> dict[str, Any]:
                       ip, user_agent, result, trace_id, occurred_at
                     ) VALUES (
                       :event_id, :actor_id, :actor_name, :action,
-                      :resource_type, :resource_id, NULL, :after_data,
+                      :resource_type, :resource_id, NULL, CAST(:after_data AS jsonb),
                       NULL, NULL, 'success', :trace_id, NOW()
                     )
                     ON CONFLICT (event_id) DO NOTHING
@@ -60,7 +61,7 @@ def consume_outbox(batch_size: int = 200) -> dict[str, Any]:
                     "action": action,
                     "resource_type": row["aggregate_type"],
                     "resource_id": row["aggregate_id"],
-                    "after_data": payload,
+                    "after_data": json.dumps(payload, ensure_ascii=False),
                     "trace_id": row["trace_id"],
                 },
             )
